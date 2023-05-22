@@ -26,7 +26,7 @@ class LoginController extends Controller
         return back()->withInput($request->only('email', 'remember_me'))->with('danger', 'wrong credintial');
 
     }
-    public function logout()
+    public function Logout()
     {
 
         $guard = $this->getGuard();
