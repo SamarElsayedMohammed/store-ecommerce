@@ -1,9 +1,9 @@
 @props([
-    'type' => 'text', 'name', 'value' => "", 'label' => false,'id'=>''
+    'type' => 'text', 'name', 'value' => "", 'label' => false,'id'=>'','labelName'=>''
 ])
 
 @if($label)
-<x-form.label for="{{$id}}">{{$name}}</x-form.label>
+<x-form.label for="{{$id}}">{{$labelName}}</x-form.label>
 @endif
 
 <input 
