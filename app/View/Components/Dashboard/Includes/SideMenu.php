@@ -1,11 +1,11 @@
 <?php
 
-namespace App\View\Components\Dashboard\Layouts;
+namespace App\View\Components\Dashboard\Includes;
 
 use App\Models\Category;
 use Illuminate\View\Component;
 
-class AdminLayout extends Component
+class SideMenu extends Component
 {
     /**
      * Create a new component instance.
@@ -13,13 +13,12 @@ class AdminLayout extends Component
      * @return void
      */
 
+    public $MainCatCount;
 
-    public $title;
-
-    public function __construct($title = null, $MainCatCount = null)
+    public function __construct($MainCatCount = null)
     {
-        $this->title = $title ?? config('app.name');
-        
+        $this->MainCatCount = $MainCatCount ?? Category::parent()->count();
+
     }
 
     /**
@@ -29,7 +28,6 @@ class AdminLayout extends Component
      */
     public function render()
     {
-
-        return view('dashboard.layouts.admin');
+        return view('components.dashboard.includes.sidebare');
     }
 }

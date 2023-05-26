@@ -37,4 +37,25 @@ class Category extends Model
         'is_active' => 'boolean',
     ];
 
+    public function getActive()
+    {
+        return $this->is_active == 0 ? 'غير مفعل' : 'مفعل';
+    }
+
+
+    public function _parent()
+    {
+        return $this->belongsTo(self::class, 'parent_id');
+    }
+    /**
+     * Scope a query to only include Main ategories.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeParent($query)
+    {
+        return $query->whereNull('parent_id');
+    }
+
 }

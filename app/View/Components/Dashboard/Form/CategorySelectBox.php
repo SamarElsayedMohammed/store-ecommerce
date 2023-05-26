@@ -1,25 +1,23 @@
 <?php
 
-namespace App\View\Components\Dashboard\Layouts;
+namespace App\View\Components\Dashboard\Form;
 
 use App\Models\Category;
 use Illuminate\View\Component;
 
-class AdminLayout extends Component
+class CategorySelectBox extends Component
 {
+
+    public $parents;
+
     /**
      * Create a new component instance.
      *
      * @return void
      */
-
-
-    public $title;
-
-    public function __construct($title = null, $MainCatCount = null)
+    public function __construct()
     {
-        $this->title = $title ?? config('app.name');
-        
+        $this->parents = Category::all()->pluck('name', 'id')->toArray();
     }
 
     /**
@@ -29,7 +27,6 @@ class AdminLayout extends Component
      */
     public function render()
     {
-
-        return view('dashboard.layouts.admin');
+        return view('components.dashboard.form.category-select-box');
     }
 }

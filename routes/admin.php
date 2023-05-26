@@ -1,11 +1,14 @@
 <?php
 
-use App\Http\Controllers\Dashboard\DashbordController;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Routing\Controllers\Middleware;
 use App\Http\Controllers\Dashboard\LoginController;
 use App\Http\Controllers\Dashboard\ProfileController;
+use App\Http\Controllers\Dashboard\DashbordController;
 use App\Http\Controllers\Dashboard\SettingsController;
-use Illuminate\Routing\Controllers\Middleware;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Dashboard\CategoriesController;
+use App\Http\Controllers\Dashboard\SubCategoriesController;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,10 +39,25 @@ Route::group(
 
             Route::group(['prefix' => 'profile', 'as' => 'profile.'], function () {
 
-                Route::get('edit',[ProfileController::class,'edit'])->name('edit');
+                Route::get('edit', [ProfileController::class, 'edit'])->name('edit');
                 Route::put('update', [ProfileController::class, 'update'])->name('update');
             });
+            Route::group(['prefix' => 'main_categories', 'as' => 'maincategories.'], function () {
 
+                Route::get('/', [CategoriesController::class, 'index'])->name('index');
+                Route::get('create', [CategoriesController::class, 'create'])->name('create');
+                Route::post('store', [CategoriesController::class, 'store'])->name('store');
+                Route::get('edit/{id}', [CategoriesController::class, 'edit'])->name('edit');
+                Route::post('update/{id}', [CategoriesController::class, 'update'])->name('update');
+                Route::get('delete/{id}', [CategoriesController::class, 'delete'])->name('delete');
+                Route::get('changeStatus/{id}', [CategoriesController::class, 'changeStatus'])->name('changestatus');
+
+            });
+            Route::group(['prefix' => 'sub_categories', 'as' => 'subcategories.'], function () {
+
+                Route::get('/', [SubCategoriesController::class, 'index'])->name('index');
+
+            });
         });
 
         Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'guest:admin',], function () {
