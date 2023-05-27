@@ -112,7 +112,7 @@ return [
         'sub_menu' => [
             [
                 'icon' => 'la la-home',
-                'route' => ['admin.subcategories.index'],
+                'route' => ['admin.brands.index'],
                 'title' => 'Show All',
                 'active' => 'dashboard.dashboard',
                 'count' => 0,
@@ -120,7 +120,7 @@ return [
             ],
             [
                 'icon' => 'la la-home',
-                'route' => ['admin.maincategories.create'],
+                'route' => ['admin.brands.create'],
                 'title' => 'Add New',
                 'active' => 'dashboard.dashboard',
                 'count' => 0,
