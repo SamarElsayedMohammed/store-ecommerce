@@ -9,6 +9,7 @@ use App\Http\Controllers\Dashboard\DashbordController;
 use App\Http\Controllers\Dashboard\SettingsController;
 use App\Http\Controllers\Dashboard\CategoriesController;
 use App\Http\Controllers\Dashboard\SubCategoriesController;
+use App\Http\Controllers\Dashboard\TagsController;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 /*
@@ -69,6 +70,17 @@ Route::group(
                 Route::post('update/{id}', [BrandsControlller::class, 'update'])->name('update');
                 Route::get('delete/{id}', [BrandsControlller::class, 'delete'])->name('delete');
                 Route::get('changeStatus/{id}', [BrandsControlller::class, 'changeStatus'])->name('changestatus');
+
+            });
+            Route::group(['prefix' => 'tags', 'as' => 'tags.'], function () {
+
+                Route::get('/', [TagsController::class, 'index'])->name('index');
+                Route::get('create', [TagsController::class, 'create'])->name('create');
+                Route::post('store', [TagsController::class, 'store'])->name('store');
+                Route::get('edit/{id}', [TagsController::class, 'edit'])->name('edit');
+                Route::post('update/{id}', [TagsController::class, 'update'])->name('update');
+                Route::get('delete/{id}', [TagsController::class, 'delete'])->name('delete');
+                Route::get('changeStatus/{id}', [TagsController::class, 'changeStatus'])->name('changestatus');
 
             });
         });
