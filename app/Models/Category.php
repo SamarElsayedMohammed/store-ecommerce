@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Scopes\CategoryScope;
 use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -47,6 +48,11 @@ class Category extends Model
     {
         return $this->belongsTo(self::class, 'parent_id');
     }
+
+    public function childs()
+    {
+        return $this->hasMany(self::class, 'parent_id');
+    }
     /**
      * Scope a query to only include Main ategories.
      *
@@ -56,6 +62,11 @@ class Category extends Model
     public function scopeParent($query)
     {
         return $query->whereNull('parent_id');
+    }
+
+    protected static function booted()
+    {
+        static::addGlobalScope(new CategoryScope);
     }
 
 }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Scopes\ProductScope;
 use Illuminate\Database\Eloquent\Model;
 use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -78,7 +79,10 @@ class Product extends Model
      * @var array
      */
     protected $translatedAttributes = ['name', 'description', 'short_description'];
-
+    protected static function booted()
+    {
+        static::addGlobalScope(new ProductScope);
+    }
     public function brand()
     {
         return $this->belongsTo(Brand::class)->withDefault();
@@ -91,17 +95,12 @@ class Product extends Model
 
     public function categories()
     {
-        return $this->belongsToMany(Category::class, 'product_categories');
-    }
-
-    public function scopeActive($query)
-    {
-        return $query->where('is_active', 1);
+        return $this->belongsToMany(Category::class, 'product_categories')->withDefault();
     }
 
     public function tags()
     {
-        return $this->belongsToMany(Tag::class, 'product_tags');
+        return $this->belongsToMany(Tag::class, 'product_tags')->withDefault();
     }
 
     public function options()
@@ -112,9 +111,10 @@ class Product extends Model
     //////
     ///
 
-    public function images()
+    public function file()
     {
-        return $this->hasMany(Image::class, 'product_id');
+
+        return $this->morphMany(File::class, 'Fileable');
     }
 
     public function hasStock($quantity)
@@ -138,4 +138,6 @@ class Product extends Model
         return $total = $this->special_price ?? $this->price;
 
     }
+
+
 }

@@ -9,12 +9,15 @@ use Illuminate\Support\Facades\Storage;
 trait FileTrait
 {
 
-    public function saveImage($photo, $folder, $subFolder)
+    public function saveImage($photo, $folder, $subFolder = null)
     {
-
+        $path = $folder;
+        if ($subFolder !== null) {
+            $path = 'uploads/' . $folder . '/' . $subFolder;
+        }
         $file_extension = $photo->getClientOriginalExtension();
         $file_name = time() . '_' . '.' . $file_extension;
-        $path = 'uploads/' . $folder . '/' . $subFolder;
+
         $photo->storeAs($path, $file_name, 'public');
         $Fullpath = 'storage/' . $path . '/' . $file_name;
         return $Fullpath;
@@ -46,8 +49,8 @@ trait FileTrait
 
     public function deleteImage($filename)
     {
-        $file =  str_replace('storage/', '', $filename);
-        
+        $file = str_replace('storage/', '', $filename);
+
         if (Storage::disk('public')->exists($file)) {
             Storage::disk('public')->delete($file);
             return "Image deleted successfully.";

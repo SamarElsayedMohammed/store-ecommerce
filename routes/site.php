@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Category;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -12,4 +13,8 @@ use Illuminate\Support\Facades\Route;
 | contains the "site" middleware group. Now create something great!
 |
 */
-
+Route::get('/home', function () {
+    // $catts = Category::with('childs')->parent()->get();
+    // return $catts;
+    return view('front.home');
+});

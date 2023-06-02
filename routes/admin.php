@@ -1,15 +1,18 @@
 <?php
 
-use App\Http\Controllers\Dashboard\BrandsControlller;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Routing\Controllers\Middleware;
+use App\Http\Controllers\Dashboard\TagsController;
 use App\Http\Controllers\Dashboard\LoginController;
+use App\Http\Controllers\Dashboard\BrandsControlller;
 use App\Http\Controllers\Dashboard\ProfileController;
 use App\Http\Controllers\Dashboard\DashbordController;
+use App\Http\Controllers\Dashboard\ProductsController;
 use App\Http\Controllers\Dashboard\SettingsController;
+use App\Http\Controllers\Dashboard\AttributesController;
 use App\Http\Controllers\Dashboard\CategoriesController;
+use App\Http\Controllers\Dashboard\OptionsController;
 use App\Http\Controllers\Dashboard\SubCategoriesController;
-use App\Http\Controllers\Dashboard\TagsController;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 /*
@@ -81,6 +84,61 @@ Route::group(
                 Route::post('update/{id}', [TagsController::class, 'update'])->name('update');
                 Route::get('delete/{id}', [TagsController::class, 'delete'])->name('delete');
                 Route::get('changeStatus/{id}', [TagsController::class, 'changeStatus'])->name('changestatus');
+
+            });
+            Route::group(['prefix' => 'products', 'as' => 'products.'], function () {
+
+                Route::get('/', [ProductsController::class, 'index'])->name('index');
+                Route::get('create', [ProductsController::class, 'create'])->name('create');
+                Route::post('store', [ProductsController::class, 'store'])->name('store');
+                // Route::get('edit/{id}', [TagsController::class, 'edit'])->name('edit');
+                // Route::post('update/{id}', [TagsController::class, 'update'])->name('update');
+                // Route::get('delete/{id}', [TagsController::class, 'delete'])->name('delete');
+                // Route::get('changeStatus/{id}', [TagsController::class, 'changeStatus'])->name('changestatus');
+    
+
+
+                Route::group(['prefix' => 'prices', 'as' => 'prices.'], function () {
+
+                    Route::get('create/{id}', [ProductsController::class, 'getPrice'])->name('create');
+                    Route::post('store', [ProductsController::class, 'saveProductPrice'])->name('store');
+
+                });
+
+                Route::group(['prefix' => 'stock', 'as' => 'stock.'], function () {
+
+                    Route::get('create/{id}', [ProductsController::class, 'getStock'])->name('create');
+                    Route::post('store', [ProductsController::class, 'saveProductStock'])->name('store');
+
+                });
+                Route::group(['prefix' => 'images', 'as' => 'images.'], function () {
+
+                    Route::get('add/{id}', [ProductsController::class, 'addImages'])->name('add');
+                    Route::post('save', [ProductsController::class, 'saveProductImages'])->name('store');
+                    Route::post('store/db', [ProductsController::class, 'saveProductImagesDB'])->name('store.db');
+                    Route::post('delete/db', [ProductsController::class, 'deleteProductImageDB'])->name('delete.db');
+
+                });
+
+                Route::group(['prefix' => 'attributes', 'as' => 'attributes.'], function () {
+
+                    Route::get('/', [AttributesController::class, 'index'])->name('index');
+                    Route::get('create', [AttributesController::class, 'create'])->name('create');
+                    Route::post('store', [AttributesController::class, 'store'])->name('store');
+                    Route::get('edit/{id}', [AttributesController::class, 'edit'])->name('edit');
+                    Route::post('update/{id}', [AttributesController::class, 'update'])->name('update');
+                    Route::get('delete/{id}', [AttributesController::class, 'delete'])->name('delete');
+
+                });
+            });
+            Route::group(['prefix' => 'options', 'as' => 'options.'], function () {
+
+                Route::get('/', [OptionsController::class, 'index'])->name('index');
+                Route::get('create', [OptionsController::class, 'create'])->name('create');
+                Route::post('store', [OptionsController::class, 'store'])->name('store');
+                Route::get('edit/{id}', [OptionsController::class, 'edit'])->name('edit');
+                Route::post('update/{id}', [OptionsController::class, 'update'])->name('update');
+                Route::get('delete/{id}', [OptionsController::class, 'delete'])->name('delete');
 
             });
         });
