@@ -18,7 +18,7 @@ return [
         'sub_menu' => [
             [
                 'icon' => 'la la-trash',
-                'route' => ["admin.edit.shipping.methods",['free']],
+                'route' => ["admin.edit.shipping.methods", ['free']],
                 'title' => 'Shipping Methods',
                 'active' => 'dashboard.dashboard',
                 'count' => 0,
@@ -153,5 +153,104 @@ return [
             ],
         ]
     ],
-
+    [
+        'icon' => 'la la-home',
+        'route' => ['admin.products.index'],
+        'title' => 'Products',
+        'active' => 'dashboard.dashboard',
+        'count' => 0,
+        'sub_menu' => [
+            [
+                'icon' => 'la la-home',
+                'route' => ['admin.products.index'],
+                'title' => 'Show All',
+                'active' => 'dashboard.dashboard',
+                'count' => 0,
+                'sub_menu' => []
+            ],
+            [
+                'icon' => 'la la-home',
+                'route' => ['admin.products.create'],
+                'title' => 'Add New',
+                'active' => 'dashboard.dashboard',
+                'count' => 0,
+                'sub_menu' => []
+            ],
+        ]
+    ],
+    [
+        'icon' => 'la la-home',
+        'route' => ['admin.products.index'],
+        'title' => 'Product Attributes',
+        'active' => 'dashboard.dashboard',
+        'count' => 0,
+        'sub_menu' => [
+            [
+                'icon' => 'la la-home',
+                'route' => ['admin.products.attributes.index'],
+                'title' => 'Show All',
+                'active' => 'dashboard.dashboard',
+                'count' => 0,
+                'sub_menu' => []
+            ],
+            [
+                'icon' => 'la la-home',
+                'route' => ['admin.products.attributes.create'],
+                'title' => 'Add New',
+                'active' => 'dashboard.dashboard',
+                'count' => 0,
+                'sub_menu' => []
+            ],
+        ]
+    ],
+    [
+        'icon' => 'la la-home',
+        'route' => ['admin.products.index'],
+        'title' => 'Product Options',
+        'active' => 'dashboard.dashboard',
+        'count' => 0,
+        'sub_menu' => [
+            [
+                'icon' => 'la la-home',
+                'route' => ['admin.options.index'],
+                'title' => 'Show All',
+                'active' => 'dashboard.dashboard',
+                'count' => 0,
+                'sub_menu' => []
+            ],
+            [
+                'icon' => 'la la-home',
+                'route' => ['admin.options.create'],
+                'title' => 'Add New',
+                'active' => 'dashboard.dashboard',
+                'count' => 0,
+                'sub_menu' => []
+            ],
+        ]
+    ],
+    [
+        'icon' => 'la la-home',
+        'route' => ['admin.sliders.index'],
+        'title' => 'Sliders',
+        'active' => 'dashboard.dashboard',
+        'count' => 0,
+        'sub_menu' => [
+            [
+                'icon' => 'la la-home',
+                'route' => ['admin.sliders.index'],
+                'title' => 'Show All',
+                'active' => 'dashboard.dashboard',
+                'count' => 0,
+                'sub_menu' => []
+            ],
+            [
+                'icon' => 'la la-home',
+                'route' => ['admin.sliders.create'],
+                'title' => 'Add New',
+                'active' => 'dashboard.dashboard',
+                'count' => 0,
+                'sub_menu' => []
+            ],
+        ]
+    ],
 ];

@@ -25,8 +25,12 @@ class TagsController extends Controller
     public function store(TagsRequest $request)
     {
         DB::beginTransaction();
+        if (!$request->has('is_active'))
+            $request->request->add(['is_active' => 0]);
+        else
+            $request->request->add(['is_active' => 1]);
 
-        $tag = Tag::create(['slug' => $request->slug]);
+        $tag = Tag::create(['slug' => $request->slug, 'is_active' => $request->is_active]);
 
         //save translations
         $tag->name = $request->name;
@@ -37,7 +41,7 @@ class TagsController extends Controller
 
     public function show($id)
     {
-        
+
     }
 
     public function edit($id)
@@ -61,6 +65,10 @@ class TagsController extends Controller
 
 
             DB::beginTransaction();
+            if (!$request->has('is_active'))
+                $request->request->add(['is_active' => 0]);
+            else
+                $request->request->add(['is_active' => 1]);
 
 
             $tag->update($request->except('_token', 'id')); // update only for slug column
@@ -87,7 +95,8 @@ class TagsController extends Controller
 
             if (!$tags)
                 return redirect()->route('admin.tags.index')->with(['error' => 'هذا الماركة غير موجود ']);
-
+            // $tags->translations->delete();
+            event('deleteTrans', $tags);
             $tags->delete();
 
             return redirect()->route('admin.tags.index')->with(['success' => 'تم  الحذف بنجاح']);

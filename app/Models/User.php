@@ -23,6 +23,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'mobile'
     ];
 
     /**
@@ -44,8 +45,22 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-      public function setPasswordAttribute($value)
+    public function setPasswordAttribute($value)
     {
         $this->attributes['password'] = Hash::make($value);
+    }
+
+    public function codes()
+    {
+        return $this->hasMany(UserVerfication::class, 'user_id');
+    }
+    public function wishlist()
+    {
+        return $this->belongsToMany(Product::class, 'wish_list')->withTimestamps();
+    }
+
+    public function wishlistHas($productId)
+    {
+        return self::wishlist()->where('product_id', $productId)->exists();
     }
 }

@@ -25,7 +25,7 @@ class Tag extends Model
      *
      * @var array
      */
-    protected $fillable = ['slug'];
+    protected $fillable = ['slug', 'is_active'];
 
     /**
      * The attributes that should be hidden for serialization.

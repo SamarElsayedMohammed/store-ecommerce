@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\Admin\BrandRequest;
+use App\Models\Scopes\BrandScope;
 
 class BrandsControlller extends Controller
 {
@@ -18,7 +19,7 @@ class BrandsControlller extends Controller
     public function index()
     {
 
-        $brands = Brand::all();
+        $brands = Brand::withoutGlobalScope(BrandScope::class)->get();
 
         return view('dashboard.brands.index', compact('brands'));
     }
@@ -63,10 +64,10 @@ class BrandsControlller extends Controller
     }
     public function edit($id)
     {
-        $brand = Brand::with(['file'])->find($id);
+        $brand = Brand::withoutGlobalScope(BrandScope::class)->with(['file'])->find($id);
 
         if (!$brand)
-            return redirect()->route('admin.brands')->with(['error' => 'هذا الماركة غير موجود ']);
+            return redirect()->route('admin.brands.index')->with(['error' => 'هذا الماركة غير موجود ']);
 
         return view('dashboard.brands.edit', compact('brand'));
 
@@ -76,7 +77,7 @@ class BrandsControlller extends Controller
     {
         try {
 
-            $brand = Brand::find($id);
+            $brand = Brand::withoutGlobalScope(BrandScope::class)->find($id);
 
             if (!$brand)
                 return redirect()->route('admin.brands')->with(['error' => 'هذا الماركة غير موجود']);
@@ -137,7 +138,7 @@ class BrandsControlller extends Controller
             $image = File::where('Fileable_id', $id)->where('Fileable_type', get_class($brand))->first();
             $this->deleteImage($image->file_name);
             $image->delete();
-
+            $brand->translations->delete();
             $brand->delete();
 
             return redirect()->route('admin.brands.index')->with(['success' => 'تم  الحذف بنجاح']);

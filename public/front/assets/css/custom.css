@@ -1,0 +1,19 @@
+.cart-quantity {
+    padding: 3px;
+    border: 2px solid #eee;
+    border-radius: 5px;
+    margin: 5px;
+    width: 50%;
+    text-align: center;
+    font-size: 14px;
+    color: #888;
+}
+.check-out-container .check-out-radio {
+    height: 20px !important;
+    padding: 5px !important;
+    width: 50px !important;
+}
+.check-out-container {
+    display: flex;
+    justify-content: space-between;
+}

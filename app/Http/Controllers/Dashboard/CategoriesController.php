@@ -2,18 +2,20 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+use App\Events\DeleteTransEvent;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\MainCategoryRequest;
+use App\Models\Scopes\CategoryScope;
 
 class CategoriesController extends Controller
 {
     public function index()
     {
-        $mainCategories = Category::whereNull('parent_id')->get();
+        $mainCategories = Category::whereNull('parent_id')->withoutGlobalScope(CategoryScope::class)->get();
         // return $mainCategories;
         return view('dashboard.categories.index', compact('mainCategories'));
     }
@@ -37,16 +39,7 @@ class CategoriesController extends Controller
             else
                 $request->request->add(['is_active' => 1]);
 
-            //if user choose main category then we must remove paret id from the request
 
-            // if ($request->type == CategoryType::mainCategory) //main category
-            // {
-            //     $request->request->add(['parent_id' => null]);
-            // }
-
-            //if he choose child category we mus t add parent id
-
-            // return $request->except('_token');
             $category = Category::create($request->except('_token'));
 
             //save translations
@@ -60,7 +53,7 @@ class CategoriesController extends Controller
 
         } catch (\Exception $ex) {
             DB::rollback();
-            return redirect()->route('admin.maincategories.index')->with(['error' => 'حدث خطا ما برجاء المحاوله لاحقا']);
+            return redirect()->route('admin.maincategories.index')->with(['danger' => 'حدث خطا ما برجاء المحاوله لاحقا']);
         }
 
 
@@ -68,10 +61,10 @@ class CategoriesController extends Controller
 
     public function edit($id)
     {
-        $category = Category::find($id);
+        $category = Category::withoutGlobalScope(CategoryScope::class)->find($id);
 
         if (!$category)
-            return redirect()->route('admin.maincategories')->with(['error' => 'هذا القسم غير موجود ']);
+            return redirect()->route('admin.maincategories.index')->with(['danger' => 'هذا القسم غير موجود ']);
 
         return view('dashboard.categories.edit', compact('category'));
 
@@ -84,7 +77,7 @@ class CategoriesController extends Controller
             // return $category;
 
             if (!$category)
-                return redirect()->route('dashboard.categories.index')->with(['error' => 'هذا القسم غير موجود']);
+                return redirect()->route('dashboard.categories.index')->with(['danger' => 'هذا القسم غير موجود']);
 
             if (!$request->has('is_active'))
                 $request->request->add(['is_active' => 0]);
@@ -112,14 +105,17 @@ class CategoriesController extends Controller
             $category = Category::orderBy('id', 'DESC')->find($id);
 
             if (!$category)
-                return redirect()->route('admin.maincategories.index')->with(['error' => 'هذا القسم غير موجود ']);
+                return redirect()->route('admin.maincategories.index')->with(['danger' => 'هذا القسم غير موجود ']);
+
+            event('deleteTrans',$category);
 
             $category->delete();
 
             return redirect()->route('admin.maincategories.index')->with(['success' => 'تم  الحذف بنجاح']);
 
         } catch (\Exception $ex) {
-            return redirect()->route('admin.maincategories.index')->with(['error' => 'حدث خطا ما برجاء المحاوله لاحقا']);
+            // return $ex;
+            return redirect()->route('admin.maincategories.index')->with(['danger' => 'حدث خطا ما برجاء المحاوله لاحقا']);
         }
 
     }

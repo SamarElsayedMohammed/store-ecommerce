@@ -34,6 +34,13 @@ return [
     */
 
     'connections' => [
+        'elasticsearch' => [
+            'driver' => 'elasticsearch',
+            'host' => env('ELASTICSEARCH_HOST', 'http://localhost'),
+            'port' => env('ELASTICSEARCH_PORT', 9200),
+            'index' => env('ELASTICSEARCH_INDEX', 'your_index_name'),
+        ],
+
 
         'sqlite' => [
             'driver' => 'sqlite',
