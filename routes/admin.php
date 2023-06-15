@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Dashboard\BrandsControlller;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Routing\Controllers\Middleware;
 use App\Http\Controllers\Dashboard\LoginController;
@@ -56,6 +57,18 @@ Route::group(
             Route::group(['prefix' => 'sub_categories', 'as' => 'subcategories.'], function () {
 
                 Route::get('/', [SubCategoriesController::class, 'index'])->name('index');
+
+            });
+
+            Route::group(['prefix' => 'brands', 'as' => 'brands.'], function () {
+
+                Route::get('/', [BrandsControlller::class, 'index'])->name('index');
+                Route::get('create', [BrandsControlller::class, 'create'])->name('create');
+                Route::post('store', [BrandsControlller::class, 'store'])->name('store');
+                Route::get('edit/{id}', [BrandsControlller::class, 'edit'])->name('edit');
+                Route::post('update/{id}', [BrandsControlller::class, 'update'])->name('update');
+                Route::get('delete/{id}', [BrandsControlller::class, 'delete'])->name('delete');
+                Route::get('changeStatus/{id}', [BrandsControlller::class, 'changeStatus'])->name('changestatus');
 
             });
         });

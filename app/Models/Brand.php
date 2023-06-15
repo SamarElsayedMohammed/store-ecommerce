@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Astrotomic\Translatable\Translatable;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Brand extends Model
@@ -17,12 +18,14 @@ class Brand extends Model
      */
     protected $with = ['translations'];
 
+    protected $appends = ['image_path'];
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['is_active', 'photo'];
+    protected $fillable = ['slug', 'is_active', 'photo'];
 
     /**
      * The attributes that should be cast to native types.
@@ -55,5 +58,25 @@ class Brand extends Model
     {
 
         return $this->morphMany(File::class, 'Fileable');
+    }
+
+    /**
+     * Get the user's first name.
+     *
+     * @return \Illuminate\Database\Eloquent\Casts\Attribute
+     */
+    protected function imagePath(): Attribute
+    {
+      
+        return Attribute::get(function () {
+              $image = '';
+             $image_path = $this->file()->get();
+
+            if (!empty($image_path)) {
+                 $image_arr =$image_path->pluck('file_name')->toArray();
+                return end($image_arr);
+            }
+            return ($image);
+        });
     }
 }
