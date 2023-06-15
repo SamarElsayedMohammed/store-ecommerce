@@ -20,12 +20,12 @@ class CategoryFactory extends Factory
     {
         $faker = \Faker\Factory::create();
         $faker->addProvider(new \Bezhanov\Faker\Provider\Commerce($faker));
-        
+
         $name = $faker->department();
 
         return [
             'name' => $name,
-            'slug' => Str::slug($name),
+            'slug' => Str::slug(random_string(2) . "-" . $name),
             'is_active' => $this->faker->boolean(),
         ];
     }

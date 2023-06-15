@@ -1,25 +1,10 @@
-@props([
-    'name', 'options', 'checked' => false, 'label' => false,'id'=>''
-])
+@props(['name', 'options', 'checked' => '1', 'label' => false, 'id' => '', 'value'=>"0", 'labelName'])
 
-@if($label)
-<x-form.label for="{{$id}}">{{$name}}</x-form.label>
+@if ($label)
+    <x-form.label id="{{ $id }}">{{ $labelName }}</x-form.label>
 @endif
 
-@foreach($options as $value => $text)
-
-<div class="form-check">
-    <input class="form-check-input" type="radio" name="{{ $name }}" value="{{ $value }}"
-        @checked(old($name, $checked) == $value)
-        {{ $attributes->class([
-            'form-check-input',
-            'is-invalid' => $errors->has($name)
-        ]) }}
-    >
-    <label class="form-check-label">
-        {{ $text }}
-    </label>
-</div>
-
-@endforeach
+<input type="checkbox" name="{{ $name }}" value="{{ $checked }}" id="{{ $id }}" class="switchery"
+    data-color="success" @checked(old($name, $checked) == old($name, $value))
+    {{ $attributes->class(['form-check-input', 'is-invalid' => $errors->has($name)]) }} />
 <x-form.error-feedback :name="$name" />

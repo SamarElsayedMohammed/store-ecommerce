@@ -1,6 +1,6 @@
 <?php
 
-define('PAGINATION_COUNT', 10);
+use Illuminate\Support\Facades\Route;
 
 function getFolder()
 {
@@ -16,44 +16,47 @@ function uploadImage($folder, $image)
     return $filename;
 }
 
+function getRouteName($route)
+{
 
+    if (count($route) > 1) {
+        return route(array_shift($route), end($route));
+    } else {
+        return route(array_shift($route));
+
+    }
+
+}
 function printTreeArray($array, $allMenu = "")
 {
-$sideMenu = "";
+    $sideMenu = "";
+
 
     foreach ($array as $value) {
+
         if (is_array($value['sub_menu']) && count($value['sub_menu']) > 0) {
-            // $sideMenu = "";
-            $sideMenu .= "<li class=' nav-item'><a href='" . $value["route"] . "'><i class='" . $value["icon"] . "'></i><span class='menu-title' data-i18n='nav.dash." . $value["title"] . "'>" . $value["title"] . "</span></a>";
+
+            $sideMenu .= "<li class=' nav-item'><a href='";
+            $sideMenu .= getRouteName($value["route"]);
+            $sideMenu .= "'><i class='" . $value["icon"] . "'></i><span class='menu-title' data-i18n='nav.dash." . $value["title"] . "'>" . $value["title"] . "</span></a>";
             $sideMenu .= "<ul class='menu-content'>";
             $sideMenu .= printTreeArray($value['sub_menu'], $sideMenu);
             $sideMenu .= '</ul>';
             $allMenu = $sideMenu;
-        }else{
-            $sideMenu .= "<li class=' nav-item'><a href='" . $value["route"] . "'><i class='" . $value["icon"] . "'></i><span class='menu-title' data-i18n='nav.dash." . $value["title"] . "'>" . $value["title"] . "</span></a>";
+        } else {
+            $sideMenu .= "<li class=' nav-item'><a href='";
+            $sideMenu .= getRouteName($value["route"]);
+            $sideMenu .= "'><i class='" . $value["icon"] . "'></i><span class='menu-title' data-i18n='nav.dash." . $value["title"] . "'>" . $value["title"] . "</span></a>";
             $allMenu = $sideMenu;
         }
     }
     return $allMenu;
 }
-
-
-function printMenuSidelList()
+function random_string($length)
 {
-    $sideMenu = "";
-
-    foreach (config('nav') as $array) {
-
-        $sideMenu .=
-            "<li class=' nav-item'><a href='" . $array["route"] . "'><i class='" . $array["icon"] . "'></i><span class='menu-title' data-i18n='nav.dash." . $array["title"] . "'>" . $array["title"] . "</span></a>";
-
-        if (is_array($array['sub_menu']) && count($array['sub_menu']) > 0) {
-            $sideMenu .= "<ul class='menu-content'>";
-            $sideMenu .= printTreeArray($array, $sideMenu);
-            $sideMenu .= '</ul>';
-        }
-
-
-    }
-    return $sideMenu;
+    $str = random_bytes($length);
+    $str = base64_encode($str);
+    $str = str_replace(["+", "/", "="], "", $str);
+    $str = substr($str, 0, $length);
+    return $str;
 }

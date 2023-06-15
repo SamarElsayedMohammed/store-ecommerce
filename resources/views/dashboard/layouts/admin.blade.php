@@ -52,7 +52,7 @@
   <!-- ////////////////////////////////////////////////////////////////////////////-->
 
   <!-- BEGIN Side menu-->
-  <x-dashboard.includes.sidebare/>
+  <x-dashboard.includes.side-menu/>
   <!-- END Side menu-->
 
  
@@ -62,7 +62,6 @@
         {{ $breadcrumb ?? '' }}
 
       <div class="content-body">
-
         
         
         {{$slot}}

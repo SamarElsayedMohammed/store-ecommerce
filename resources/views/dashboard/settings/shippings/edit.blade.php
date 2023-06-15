@@ -54,7 +54,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <x-form.form-actions />
+                            <x-form.form-actions name="save"/>
                         </form>
                     </div>
                 </div>
