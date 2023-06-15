@@ -4,14 +4,15 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Routing\Controllers\Middleware;
 use App\Http\Controllers\Dashboard\TagsController;
 use App\Http\Controllers\Dashboard\LoginController;
+use App\Http\Controllers\Dashboard\SilderController;
 use App\Http\Controllers\Dashboard\BrandsControlller;
+use App\Http\Controllers\Dashboard\OptionsController;
 use App\Http\Controllers\Dashboard\ProfileController;
 use App\Http\Controllers\Dashboard\DashbordController;
 use App\Http\Controllers\Dashboard\ProductsController;
 use App\Http\Controllers\Dashboard\SettingsController;
 use App\Http\Controllers\Dashboard\AttributesController;
 use App\Http\Controllers\Dashboard\CategoriesController;
-use App\Http\Controllers\Dashboard\OptionsController;
 use App\Http\Controllers\Dashboard\SubCategoriesController;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
@@ -117,6 +118,8 @@ Route::group(
                     Route::post('save', [ProductsController::class, 'saveProductImages'])->name('store');
                     Route::post('store/db', [ProductsController::class, 'saveProductImagesDB'])->name('store.db');
                     Route::post('delete/db', [ProductsController::class, 'deleteProductImageDB'])->name('delete.db');
+                    Route::get('delete/tmp/{filename}', [ProductsController::class, 'DeleteTemImage'])->name('delete.tem');
+
 
                 });
 
@@ -140,6 +143,12 @@ Route::group(
                 Route::post('update/{id}', [OptionsController::class, 'update'])->name('update');
                 Route::get('delete/{id}', [OptionsController::class, 'delete'])->name('delete');
 
+            });
+            Route::group(['prefix' => 'sliders', 'as' => 'sliders.'], function () {
+
+                Route::get('/', [SilderController::class, 'index'])->name('index');
+                Route::get('create', [SilderController::class, 'create'])->name('create');
+                Route::post('store', [SilderController::class, 'store'])->name('store');
             });
         });
 

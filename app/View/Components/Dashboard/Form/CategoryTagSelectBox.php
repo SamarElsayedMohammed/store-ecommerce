@@ -19,13 +19,13 @@ class CategoryTagSelectBox extends Component
 
         $cats = Category::all()->pluck('name', 'id');
 
-        $array = $cats->map(function ($item, $key) {
+        $ar = $cats->map(function ($item, $key) {
             $val['value'] = $key;
             $val['name'] = $item;
             return $val;
 
         })->toArray();
-        $this->categories = array_values($array);
+        $this->categories = array_values($ar);
     }
 
     /**

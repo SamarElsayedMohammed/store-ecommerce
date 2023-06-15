@@ -197,7 +197,7 @@ return [
 
         App\Providers\BladeServiceProvider::class,
         App\Providers\CartServiceProvider::class,
-
+        yajra\Datatables\DatatablesServiceProvider::class,
 
     ],
 
@@ -213,6 +213,7 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
+        'Datatables' => yajra\Datatables\Datatables::class,
         // 'ExampleClass' => App\Example\ExampleClass::class,
     ])->toArray(),
 

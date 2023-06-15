@@ -2,10 +2,11 @@
 
 namespace App\Models;
 
+use App\Models\Product;
 use App\Models\Scopes\CategoryScope;
+use Illuminate\Database\Eloquent\Model;
 use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
 {
@@ -33,11 +34,14 @@ class Category extends Model
      *
      * @var array
      */
-    protected $hidden = ['translations'];
+    protected $hidden = ['translations', 'pivot'];
     protected $casts = [
         'is_active' => 'boolean',
     ];
-
+    public function products()
+    {
+        return $this->belongsToMany(Product::class, 'products_categories');
+    }
     public function getActive()
     {
         return $this->is_active == 0 ? 'غير مفعل' : 'مفعل';
@@ -68,5 +72,7 @@ class Category extends Model
     {
         static::addGlobalScope(new CategoryScope);
     }
+
+
 
 }

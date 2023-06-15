@@ -19,6 +19,7 @@ class RouteServiceProvider extends ServiceProvider
      */
     public const HOME = '/home';
     public const ADMINHOME = '/admin/home';
+    public const VERIFIED = '/verify';
 
     /**
      * Define your route model bindings, pattern filters, and other route configuration.

@@ -4,8 +4,12 @@ namespace App\Http\Controllers\Front;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use App\Services\RealProductCart;
 use App\Http\Controllers\Controller;
 use App\Repositories\CartRepository;
+use Illuminate\Support\Facades\Cookie;
+use PhpParser\ErrorHandler\Collecting;
+use App\Repositories\CookieCartRepository;
 
 class CartController extends Controller
 {
@@ -13,27 +17,18 @@ class CartController extends Controller
 
     public function __construct(CartRepository $cart)
     {
-        $this->cart = $cart;
+        $this->cart = new CookieCartRepository();
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function index(RealProductCart $products)
     {
-        return view('front.cart', [
-            'cart' => $this->cart,
-        ]);
-    }
+       $cart = collect($this->cart->get());
+    //    return $this->cart->total();
+        $totalPrice = $this->cart->totalPrice();
+        $cartItems = $products->RealProductsDetails($cart);
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+        return view('front.cart', compact('cartItems', 'totalPrice'));
+    }
     public function store(Request $request)
     {
         $request->validate([
@@ -55,13 +50,6 @@ class CartController extends Controller
             ->with('success', 'Product added to cart!');
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         $request->validate([
@@ -71,12 +59,6 @@ class CartController extends Controller
         $this->cart->update($id, $request->post('quantity'));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         $this->cart->delete($id);
@@ -85,4 +67,13 @@ class CartController extends Controller
             'message' => 'Item deleted!',
         ];
     }
+    public function emptyCart($id)
+    {
+        $this->cart->empty($id);
+
+        return [
+            'message' => 'cart is empty now',
+        ];
+    }
+
 }

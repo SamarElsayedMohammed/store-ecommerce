@@ -180,7 +180,21 @@
                     } else {
                         name = uploadedDocumentMap[file.name]
                     }
+                    console.log(name);
+                    $.ajax({
+                        type: 'GET',
+                        url: '/admin/products/images/delete/tmp/' + name,
+                        // data: '_token = <?php echo csrf_token(); ?>',
+                        success: function(data) {
+                            // Handle the response from the server
+                        },
+                        error: function(XMLHttpRequest, textStatus, errorThrown) {
+                            // Handle the error
+                        }
+                    });
+
                     $('form').find('input[name="document[]"][value="' + name + '"]').remove()
+
                 },
                 // previewsContainer: "#dpz-btn-select-files", // Define the container to display the previews
                 init: function() {

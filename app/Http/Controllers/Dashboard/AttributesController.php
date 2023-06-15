@@ -73,17 +73,17 @@ class AttributesController extends Controller
     {
          try {
             //get specific categories and its translations
-            $brand = Brand::find($id);
+            $attribute = Attribute::find($id);
 
-            if (!$brand)
-                return redirect()->route('admin.brands')->with(['danger' => 'هذا الماركة غير موجود ']);
+            if (!$attribute)
+                return redirect()->route('admin.products.attributes.index')->with(['danger' => 'هذا الماركة غير موجود ']);
 
-            $brand->delete();
+            $attribute->delete();
 
-            return redirect()->route('admin.brands')->with(['success' => 'تم  الحذف بنجاح']);
+            return redirect()->route('admin.products.attributes.index')->with(['success' => 'تم  الحذف بنجاح']);
 
         } catch (\Exception $ex) {
-            return redirect()->route('admin.brands')->with(['danger' => 'حدث خطا ما برجاء المحاوله لاحقا']);
+            return redirect()->route('admin.products.attributes.index')->with(['danger' => 'حدث خطا ما برجاء المحاوله لاحقا']);
         }
     
     }

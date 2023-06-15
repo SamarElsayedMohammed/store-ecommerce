@@ -15,13 +15,14 @@ use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\Admin\ProductPriceRequest;
 use App\Http\Requests\Admin\ProductStockRequest;
 use App\Http\Requests\Admin\ProductImagesRequest;
+use App\Models\Scopes\ProductScope;
 
 class ProductsController extends Controller
 {
     use FileTrait;
     public function index()
     {
-        $products = Product::all();
+        $products = Product::withoutGlobalScope(ProductScope::class)->get();
 
         return view('dashboard.products.index', compact('products'));
     }
@@ -35,6 +36,7 @@ class ProductsController extends Controller
     }
     public function store(Request $request)
     {
+        // return$request;
 
         DB::beginTransaction();
 
@@ -47,9 +49,9 @@ class ProductsController extends Controller
 
         $product = Product::create([
             'slug' => $request->slug,
+            'price' => 0,
             'brand_id' => $request->brand_id,
             'is_active' => $request->is_active,
-            'price' => 500,
             'manage_stock' => false,
             'in_stock' => false
         ]);
@@ -62,10 +64,10 @@ class ProductsController extends Controller
 
         //save product categories
 
-        $product->categories()->attach(collect(json_decode($request->categories_outside))->pluck('value'));
+        $product->categories()->attach($request->category_id);
 
         //save product tags
-        $product->tags()->attach(collect(json_decode($request->tags_outside))->pluck('value'));
+        $product->tags()->attach($request->tags_id);
 
         DB::commit();
         return redirect()->route('admin.products.index')->with(['success' => 'تم ألاضافة بنجاح']);
@@ -204,6 +206,16 @@ class ProductsController extends Controller
 
             ]);
         }
+
+    }
+
+    public function DeleteTemImage($filename)
+    {
+        Storage::disk('public')->delete('tmp/' . $filename);
+        return response()->json([
+            'responce' => 'ok',
+
+        ]);
 
     }
 

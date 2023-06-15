@@ -14,7 +14,7 @@ return new class extends Migration {
     {
         Schema::create('carts', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->uuid('cookie_id')->unique();
+            $table->uuid('cookie_id');
 
             $table->integer('product_id')->unsigned()->nullable();
             $table->bigInteger('user_id')->unsigned()->nullable();

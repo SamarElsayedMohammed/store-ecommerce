@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Support\Str;
+use App\Observers\CartObserver;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
@@ -15,7 +16,11 @@ class Cart extends Model
     public $incrementing = false;
 
     protected $fillable = [
-        'cookie_id', 'user_id', 'product_id', 'quantity', 'options',
+        'cookie_id',
+        'user_id',
+        'product_id',
+        'quantity',
+        'options',
     ];
 
     // Events (Observers)
@@ -26,7 +31,7 @@ class Cart extends Model
     {
         static::observe(CartObserver::class);
 
-        static::addGlobalScope('cookie_id', function(Builder $builder) {
+        static::addGlobalScope('cookie_id', function (Builder $builder) {
             $builder->where('cookie_id', '=', Cart::getCookieId());
         });
 

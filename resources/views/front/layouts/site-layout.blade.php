@@ -4,7 +4,8 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
-    <title>ShopGrids - Bootstrap 5 eCommerce HTML Template.</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>{{ $title }}</title>
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('front/assets/images/favicon.svg') }}" />
@@ -15,6 +16,16 @@
     <link rel="stylesheet" href="{{ asset('front/assets/css/tiny-slider.css') }}" />
     <link rel="stylesheet" href="{{ asset('front/assets/css/glightbox.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('front/assets/css/main.css') }}" />
+    <link rel="stylesheet" href="{{ asset('front/assets/css/custom.css') }}" />
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" />
+    <link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
+    <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
 
 </head>
 
@@ -152,24 +163,13 @@
                                 </h3>
                             </div>
                             <div class="navbar-cart">
-                                <div class="wishlist">
-                                    <a href="javascript:void(0)">
-                                        <i class="lni lni-heart"></i>
-                                        <span class="total-items">0</span>
-                                    </a>
-                                </div>
-                                <div class="cart-items">
-                                    <a href="javascript:void(0)" class="main-btn">
-                                        <i class="lni lni-cart"></i>
-                                        <span class="total-items">2</span>
-                                    </a>
-                                    <!-- Shopping Item -->
 
-                                    <x-front.cart-menu />
+                                @auth
+                                    <x-front.wish-list-component />
+                                @endauth
 
+                                <x-front.cart-menu />
 
-                                    <!--/ End Shopping Item -->
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -277,7 +277,11 @@
         <!-- End Header Bottom -->
     </header>
     <!-- End Header Area -->
+    {{-- <!-- Start Breadcrumbs -->
 
+    {{ $breadcrumb ?? '' }}
+
+    <!-- End Breadcrumbs --> --}}
     {{ $slot }}
 
     <!-- Start Footer Area -->
@@ -365,6 +369,7 @@
         timer();
         setInterval(timer, 1000);
     </script>
+    @stack('scripts')
 </body>
 
 </html>

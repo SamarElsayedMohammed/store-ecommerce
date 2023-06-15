@@ -5,11 +5,13 @@ namespace App\View\Components\Front;
 use App\Facades\Cart;
 use Illuminate\View\Component;
 use App\Interfaces\CartInterface;
+use App\Repositories\CookieCartRepository;
+use App\Services\RealProductCart;
 
 class CartMenu extends Component
 {
     public $items;
-
+    public $totalPrice;
     public $total;
 
     /**
@@ -17,17 +19,11 @@ class CartMenu extends Component
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(CookieCartRepository $cart, RealProductCart $product)
     {
-        // use facade
-
-        // $this->items = Cart::get();
-        // $this->total = Cart::total();
-
-        // use service container
-
-        // $this->items = $cart->get();
-        // $this->total = $cart->total();
+        $this->items = $product->RealProductsDetails(collect($cart->get()));
+        $this->total = $cart->total();
+        $this->totalPrice = $cart->totalPrice();
     }
 
     /**
@@ -37,6 +33,6 @@ class CartMenu extends Component
      */
     public function render()
     {
-        return view('front.cart-menu');
+        return view('front.home.cart-menu');
     }
 }

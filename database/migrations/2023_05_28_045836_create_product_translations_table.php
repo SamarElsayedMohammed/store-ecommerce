@@ -18,14 +18,16 @@ return new class extends Migration {
             $table->integer('product_id')->unsigned();
             $table->string('locale');
             $table->string('name');
-            $table->longText('description');
+            $table->text('description');
             $table->text('short_description')->nullable();
 
             $table->unique(['product_id', 'locale']);
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
+            $table->index([DB::raw('description(255)'), DB::raw('short_description(255)'), 'name'], 'products_search');
         });
 
-        DB::statement('ALTER TABLE product_translations ADD FULLTEXT(name)');
+
+        // DB::statement('ALTER TABLE `product_translations` ADD INDEX `products_search` (`name`, `description`(255), `short_description`(255));');
     }
 
     /**

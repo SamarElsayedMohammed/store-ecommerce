@@ -76,13 +76,13 @@
         </div>
     </div>
 </div>
-    <div class="row">
-        <div class="col-md-12">
+<div class="row">
+    <div class="col-md-12">
 
-            <div class="form-group mt-1">
-                {{-- @dd($parents->toarray()) --}}
-                <x-dashboard.form.category-select-box  selected="{{$product->brand_id}}"/>
-            </div>
+        <div class="form-group mt-1">
+
+            <x-dashboard.form.brands-select-box selected="{{ $product->brand_id }}" />
         </div>
     </div>
+</div>
 </div>

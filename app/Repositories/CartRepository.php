@@ -85,4 +85,10 @@ class CartRepository implements CartInterface
             return $item->quantity * $item->product->price;
         });
     }
+    public function totalPrice(): float
+    {
+        return $this->get()->sum(function ($item) {
+            return $item->quantity * $item->product->price;
+        });
+    }
 }

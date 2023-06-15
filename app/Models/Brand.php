@@ -62,13 +62,13 @@ class Brand extends Model
      */
     protected function imagePath(): Attribute
     {
-      
+
         return Attribute::get(function () {
-              $image = '';
-             $image_path = $this->file()->get();
+            $image = '';
+            $image_path = $this->file()->get();
 
             if (!empty($image_path)) {
-                 $image_arr =$image_path->pluck('file_name')->toArray();
+                $image_arr = $image_path->pluck('file_name')->toArray();
                 return end($image_arr);
             }
             return ($image);
@@ -78,5 +78,9 @@ class Brand extends Model
     protected static function booted()
     {
         static::addGlobalScope(new BrandScope);
+    }
+    public function products()
+    {
+        return $this->hasMany(Product::class);
     }
 }

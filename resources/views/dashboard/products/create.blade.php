@@ -33,11 +33,11 @@
 
 
                             <div class="card-body">
-                                <form class="form" action="{{ route('admin.products.prices.store') }}" method="POST"
+                                <form class="form" action="{{ route('admin.products.store') }}" method="POST"
                                     enctype="multipart/form-data">
                                     @csrf
 
-                                    @include('dashboard.products.stock.__form')
+                                    @include('dashboard.products.__form')
 
                                     <x-form.form-actions name="save" />
 

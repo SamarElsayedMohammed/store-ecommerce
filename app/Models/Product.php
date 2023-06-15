@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Category;
 use App\Models\Scopes\ProductScope;
 use Illuminate\Database\Eloquent\Model;
 use Astrotomic\Translatable\Translatable;
@@ -26,6 +27,7 @@ class Product extends Model
      *
      * @var array
      */
+
     protected $fillable = [
         'brand_id',
         'slug',
@@ -65,6 +67,7 @@ class Product extends Model
         'end_date',
         'deleted_at',
     ];
+    protected $hidden = ['translations', 'pivot'];
 
     /**
      * The accessors to append to the model's array form.
@@ -95,12 +98,13 @@ class Product extends Model
 
     public function categories()
     {
-        return $this->belongsToMany(Category::class, 'product_categories')->withDefault();
+        return $this->belongsToMany(Category::class, 'products_categories');
     }
+
 
     public function tags()
     {
-        return $this->belongsToMany(Tag::class, 'product_tags')->withDefault();
+        return $this->belongsToMany(Tag::class, 'product_tags');
     }
 
     public function options()
@@ -110,10 +114,13 @@ class Product extends Model
 
     //////
     ///
+    public function scopeSelection($q)
+    {
+        return $q->select('id', 'slug')->get();
+    }
 
     public function file()
     {
-
         return $this->morphMany(File::class, 'Fileable');
     }
 

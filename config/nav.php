@@ -228,4 +228,29 @@ return [
             ],
         ]
     ],
+    [
+        'icon' => 'la la-home',
+        'route' => ['admin.sliders.index'],
+        'title' => 'Sliders',
+        'active' => 'dashboard.dashboard',
+        'count' => 0,
+        'sub_menu' => [
+            [
+                'icon' => 'la la-home',
+                'route' => ['admin.sliders.index'],
+                'title' => 'Show All',
+                'active' => 'dashboard.dashboard',
+                'count' => 0,
+                'sub_menu' => []
+            ],
+            [
+                'icon' => 'la la-home',
+                'route' => ['admin.sliders.create'],
+                'title' => 'Add New',
+                'active' => 'dashboard.dashboard',
+                'count' => 0,
+                'sub_menu' => []
+            ],
+        ]
+    ],
 ];

@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Interfaces\CartInterface;
 use App\Repositories\CartRepository;
 use Illuminate\Support\ServiceProvider;
+use App\Repositories\CookieCartRepository;
 
 class CartServiceProvider extends ServiceProvider
 {
@@ -16,7 +17,7 @@ class CartServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind(CartInterface::class, function () {
-            return new CartRepository();
+            return new CookieCartRepository();
         });
     }
 
