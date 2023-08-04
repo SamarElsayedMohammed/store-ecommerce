@@ -253,4 +253,29 @@ return [
             ],
         ]
     ],
+    [
+        'icon' => 'la la-home',
+        'route' => ['admin.roles.index'],
+        'title' => 'Roles',
+        'active' => 'dashboard.dashboard',
+        'count' => 0,
+        'sub_menu' => [
+            [
+                'icon' => 'la la-home',
+                'route' => ['admin.roles.index'],
+                'title' => 'Show All',
+                'active' => 'dashboard.dashboard',
+                'count' => 0,
+                'sub_menu' => []
+            ],
+            [
+                'icon' => 'la la-home',
+                'route' => ['admin.roles.create'],
+                'title' => 'Add New',
+                'active' => 'dashboard.dashboard',
+                'count' => 0,
+                'sub_menu' => []
+            ],
+        ]
+    ],
 ];

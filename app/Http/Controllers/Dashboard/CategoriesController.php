@@ -10,11 +10,19 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\MainCategoryRequest;
 use App\Models\Scopes\CategoryScope;
+use Illuminate\Support\Facades\Gate;
 
 class CategoriesController extends Controller
 {
     public function index()
     {
+
+        // if (Gate::denies('categories.view')) {
+        //     return abort(403);
+        // }
+
+        $this->authorize('view-any', Category::class);
+
         $mainCategories = Category::whereNull('parent_id')->withoutGlobalScope(CategoryScope::class)->get();
         // return $mainCategories;
         return view('dashboard.categories.index', compact('mainCategories'));
@@ -107,7 +115,7 @@ class CategoriesController extends Controller
             if (!$category)
                 return redirect()->route('admin.maincategories.index')->with(['danger' => 'هذا القسم غير موجود ']);
 
-            event('deleteTrans',$category);
+            event('deleteTrans', $category);
 
             $category->delete();
 

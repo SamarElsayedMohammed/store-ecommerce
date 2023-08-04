@@ -2,7 +2,10 @@
 
 namespace App\Providers;
 
-// use Illuminate\Support\Facades\Gate;
+use App\Models\Category;
+use App\Policies\CateoryPolicy;
+use Illuminate\Support\Facades\Gate;
+
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -13,7 +16,8 @@ class AuthServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected $policies = [
-        // 'App\Models\Model' => 'App\Policies\ModelPolicy',
+        'App\Models\Model' => 'App\Policies\ModelPolicy',
+        Category::class => CateoryPolicy::class,
     ];
 
     /**
@@ -25,6 +29,30 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        //     Gate::before(function ($user) {
+        //         if (in_array('super-admin', $user->roles->pluck('name')->toArray())) {
+        //             return true;
+        //         }
+        //     });
+        //     foreach (config('abilities') as $ability => $lable) {
+        //         Gate::define($ability, function ($user) use ($ability) {
+        //             foreach ($user->roles as $role) {
+        //                 if (in_array($ability, $role->abilities)) {
+        //                     return false;
+        //                 }
+        //             }
+        //             return false;
+
+        //         });
+        //     }
+
+        //     foreach (config('abilities') as $ability => $label) {
+
+        //         Gate::define($ability, function ($user) use ($ability) {
+        //             return $user->hasAbility($ability);
+        //         });
+
+        //     }
+
     }
 }
