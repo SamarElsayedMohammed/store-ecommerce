@@ -28,4 +28,17 @@ class Admin extends User
       set: fn($value) => Hash::make($value),
     );
   }
+  public function roles()
+  {
+    return $this->belongsToMany(Role::class, 'role_user');
+  }
+  public function hasAbility($ability)
+  {
+    foreach ($this->roles as $role) {
+      if (in_array($ability, $role->abilities)) {
+        return false;
+      }
+    }
+    return false;
+  }
 }

@@ -63,4 +63,5 @@ class User extends Authenticatable
     {
         return self::wishlist()->where('product_id', $productId)->exists();
     }
+
 }

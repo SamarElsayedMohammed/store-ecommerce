@@ -13,6 +13,7 @@ use App\Http\Controllers\Dashboard\ProductsController;
 use App\Http\Controllers\Dashboard\SettingsController;
 use App\Http\Controllers\Dashboard\AttributesController;
 use App\Http\Controllers\Dashboard\CategoriesController;
+use App\Http\Controllers\Dashboard\RolesController;
 use App\Http\Controllers\Dashboard\SubCategoriesController;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
@@ -149,6 +150,12 @@ Route::group(
                 Route::get('/', [SilderController::class, 'index'])->name('index');
                 Route::get('create', [SilderController::class, 'create'])->name('create');
                 Route::post('store', [SilderController::class, 'store'])->name('store');
+            });
+            Route::group(['prefix' => 'roles', 'as' => 'roles.'], function () {
+
+                Route::get('/', [RolesController::class, 'index'])->name('index');
+                Route::get('create', [RolesController::class, 'create'])->name('create');
+                Route::post('store', [RolesController::class, 'store'])->name('store');
             });
         });
 
